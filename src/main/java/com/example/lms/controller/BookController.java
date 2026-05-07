@@ -1,12 +1,14 @@
-
 package com.example.lms.controller;
 
-import com.example.lms.entity.Book;
+import com.example.lms.dto.BookDTO;
 import com.example.lms.service.BookService;
+
+import jakarta.validation.Valid;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
-        import java.util.List;
+import java.util.List;
 
 @RestController
 @RequestMapping("/api/books")
@@ -15,29 +17,21 @@ public class BookController {
     @Autowired
     private BookService service;
 
-    // Post -> Add Book
+    // Add Book
     @PostMapping
-    public Book create(@RequestBody Book book) {
-        return service.save(book);
+    public BookDTO create(@Valid @RequestBody BookDTO dto) {
+        return service.save(dto);
     }
 
-    // GET -> All Books
+    // Get All Books
     @GetMapping
-    public List<Book> getAll() {
+    public List<BookDTO> getAll() {
         return service.getAll();
     }
 
-    // GET -> Filter by Author
-    @GetMapping("/author")
-    public List<Book> getByAuthor(@RequestParam String name) {
-        return service.getByAuthor(name);
-    }
-
-    // PUT -> Issue Book
+    // Issue Book
     @PutMapping("/{id}/issue")
-    public Book issueBook(@PathVariable Long id) {
-        return service.updateIssueStatus(id);
+    public BookDTO issueBook(@PathVariable Long id) {
+        return service.issueBook(id);
     }
-
-
 }
